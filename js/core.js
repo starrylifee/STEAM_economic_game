@@ -305,6 +305,18 @@ function showView(name) {
   $('#btn-home').hidden = !inGame;
   $('#btn-sheet').hidden = !inGame;
   $('#btn-tuner').hidden = !inGame;
+  $('#btn-review').hidden = !inGame;
+}
+
+/* AI 기획 평가서 모달 */
+function openReview() {
+  if (!currentId) return;
+  const d = gamesData[currentId];
+  $('#review-title').textContent = `AI 기획 평가서 — ${d.title}`;
+  $('#review-scroll').innerHTML = reviewHTML(currentId);
+  $('#review-scroll').scrollTop = 0;
+  $('#review-modal').hidden = false;
+  SFX.playSelect();
 }
 
 function enterGame(id) {
@@ -337,6 +349,7 @@ function backToDashboard() {
   Overlay.hide();
   closeTuner();
   $('#sheet-modal').hidden = true;
+  $('#review-modal').hidden = true;
   showView('dashboard');
 }
 

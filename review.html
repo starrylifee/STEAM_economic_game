@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 기획 평가서 — 신답 경제 게임랩</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+  @page { size: A4 portrait; margin: 13mm 12mm; }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #6b7078; color: #14171c;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, "Malgun Gothic",
+                 "Apple SD Gothic Neo", system-ui, sans-serif;
+    font-size: 10.5pt; line-height: 1.55;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  h1, h2, h3, p, ol, ul { margin: 0; }
+
+  .bar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 12px 20px; background: #14171c; color: #f2f4f7; font-size: 13px;
+  }
+  .bar a, .bar button {
+    font: inherit; font-weight: 600; padding: 8px 15px; border-radius: 9px;
+    border: 1px solid rgba(255,255,255,.22); background: transparent; color: #f2f4f7;
+    cursor: pointer; text-decoration: none;
+  }
+  .bar button.p { background: #f2f4f7; color: #14171c; border-color: transparent; }
+  .bar .t { font-weight: 700; }
+  .bar .d { color: #9aa1ab; font-weight: 400; }
+
+  .sheet {
+    width: 210mm; min-height: 297mm; margin: 18px auto; padding: 15mm 13mm;
+    background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,.28);
+  }
+
+  .doc-head { display: flex; align-items: flex-end; justify-content: space-between;
+              gap: 14px; padding-bottom: 8px; border-bottom: 2.5px solid #14171c; }
+  .doc-head h1 { font-size: 15pt; font-weight: 800; letter-spacing: -.02em; }
+  .doc-head .sub { margin-top: 3px; font-size: 9pt; color: #565d67; }
+  .doc-head .id { font-size: 9pt; color: #565d67; white-space: nowrap; }
+  .doc-head .id span { border-bottom: 1px solid #a9b0b9; padding: 0 6px 2px;
+                       min-width: 70px; display: inline-block; }
+
+  .rv-head { margin-top: 14px; padding-bottom: 10px; border-bottom: 2px solid var(--c); }
+  .rv-kicker { font-size: 7.5pt; font-weight: 800; letter-spacing: .14em; color: var(--c); }
+  .rv-head h2 { margin-top: 4px; font-size: 16pt; font-weight: 800; letter-spacing: -.025em; }
+  .rv-emoji { margin-right: 6px; }
+  .rv-who { margin-top: 3px; font-size: 9pt; color: #565d67; }
+  .rv-score { margin-top: 8px; display: flex; gap: 6px; }
+  .rv-pill { font-size: 8.5pt; font-weight: 700; padding: 3px 9px; border-radius: 999px;
+             border: 1px solid #ccd2d9; font-family: Consolas, monospace; }
+  .rv-pill.good { color: #1a7a4e; border-color: #9dd7bb; background: #edf8f3; }
+  .rv-pill.warn { color: #8a6106; border-color: #e5cd90; background: #fdf6e6; }
+  .rv-pill.bad  { color: #a32a2f; border-color: #edb0b3; background: #fdeeef; }
+
+  .rv-summary { margin-top: 11px; padding: 10px 13px; border: 1px solid #d3d8de;
+                border-radius: 8px; background: #f7f8fa; font-size: 10pt; line-height: 1.62; }
+
+  .rv-sec { margin-top: 14px; }
+  .rv-sec h3 { font-size: 8.5pt; font-weight: 800; letter-spacing: .1em; color: #7a828c;
+               padding-bottom: 5px; border-bottom: 1px solid #d3d8de; }
+  .rv-lead { margin-top: 7px; font-size: 8.5pt; color: #7a828c; }
+
+  .rv-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .rv-table th { font-size: 8pt; font-weight: 700; color: #7a828c; text-align: left;
+                 padding: 0 8px 6px; border-bottom: 1px solid #d3d8de; }
+  .rv-table td { padding: 8px; border-bottom: 1px solid #e4e8ec; vertical-align: top; font-size: 9.5pt; }
+  .rv-table.tight td { padding: 6px 8px; }
+  .rv-table tr:last-child td { border-bottom: 0; }
+  .rv-mark { font-size: 13pt; font-weight: 800; text-align: center; }
+  .rv-mark.good { color: #1a7a4e; }
+  .rv-mark.warn { color: #a97c0b; }
+  .rv-mark.bad  { color: #c0272d; }
+  .rv-name { font-weight: 700; }
+  .rv-name span { display: block; margin-top: 2px; font-size: 8pt; font-weight: 500; color: #868d96; }
+  .rv-note { color: #3c434c; line-height: 1.58; }
+  .rv-mono { font-family: Consolas, monospace; font-size: 9pt; font-weight: 700; color: var(--c); }
+
+  .rv-bug { margin-top: 9px; padding: 11px 13px; border: 1px solid #ccd2d9; border-radius: 8px;
+            page-break-inside: avoid; }
+  .rv-bug-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .rv-bug-head b { font-size: 11pt; font-weight: 750; }
+  .rv-lv { font-size: 8pt; font-weight: 800; padding: 3px 8px; border-radius: 5px;
+           background: #fdeeef; color: #a32a2f; border: 1px solid #edb0b3; }
+  .rv-lv.lv2 { background: #fdf6e6; color: #8a6106; border-color: #e5cd90; }
+  .rv-row { display: flex; gap: 10px; padding: 4px 0; }
+  .rv-k { flex: 0 0 96px; font-size: 8.5pt; font-weight: 700; color: #7a828c; padding-top: 1px; }
+  .rv-v { flex: 1; font-size: 9.5pt; line-height: 1.6; color: #3c434c; }
+  .rv-fix { display: flex; gap: 10px; margin-top: 7px; padding-top: 8px; border-top: 1px solid #e4e8ec; }
+  .rv-fix ol { padding-left: 17px; flex: 1; }
+  .rv-fix li { font-size: 9.5pt; line-height: 1.6; margin-bottom: 5px; }
+  .rv-fix li:last-child { margin-bottom: 0; }
+
+  .foot { margin-top: 12px; padding-top: 7px; border-top: 1px solid #d3d8de;
+          font-size: 8pt; color: #868d96; display: flex; justify-content: space-between; }
+
+  @media print {
+    body { background: #fff; }
+    .bar { display: none; }
+    .sheet { width: auto; min-height: 0; margin: 0; padding: 0; box-shadow: none;
+             page-break-after: always; }
+    .sheet:last-child { page-break-after: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <span><span class="t">AI 기획 평가서</span> <span class="d">· 4쪽 (게임별 1쪽)</span></span>
+  <span>
+    <a href="index.html">← 게임으로</a>
+    <a href="worksheet.html">학습지</a>
+    <button class="p" type="button" onclick="window.print()">인쇄 / PDF 저장</button>
+  </span>
+</div>
+
+<div id="reviews"></div>
+
+<script src="js/review.js"></script>
+<script>
+document.getElementById('reviews').innerHTML = [1, 2, 3, 4].map((id) => `
+<section class="sheet">
+  <div class="doc-head">
+    <div>
+      <h1>AI 기획 평가서</h1>
+      <div class="sub">신답 경제 게임랩 · 사회 「경제 활동과 물건의 교류」</div>
+    </div>
+    <div class="id">이름 <span>&nbsp;</span></div>
+  </div>
+  ${reviewHTML(id)}
+  <div class="foot"><span>신답초 STEAM · 2026</span><span>${id} / 4</span></div>
+</section>`).join('');
+</script>
+
+</body>
+</html>

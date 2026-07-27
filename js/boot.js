@@ -18,6 +18,10 @@ $('#btn-sheet').onclick  = openSheet;
 $('#sheet-close').onclick = () => { $('#sheet-modal').hidden = true; };
 $('#sheet-modal').onclick = (e) => { if (e.target.id === 'sheet-modal') $('#sheet-modal').hidden = true; };
 
+$('#btn-review').onclick   = openReview;
+$('#review-close').onclick = () => { $('#review-modal').hidden = true; };
+$('#review-modal').onclick = (e) => { if (e.target.id === 'review-modal') $('#review-modal').hidden = true; };
+
 $('#btn-tuner').onclick    = openTuner;
 $('#tuner-close').onclick  = closeTuner;
 $('#drawer-scrim').onclick = closeTuner;
@@ -36,6 +40,7 @@ soundBtn.onclick = () => {
 window.addEventListener('keydown', (e) => {
   if (e.key !== 'Escape') return;
   if (!$('#sheet-modal').hidden) { $('#sheet-modal').hidden = true; return; }
+  if (!$('#review-modal').hidden) { $('#review-modal').hidden = true; return; }
   if (!$('#tuner').hidden) { closeTuner(); return; }
   if (!$('#overlay').hidden) return;
   if (!$('#view-game').hidden) backToDashboard();

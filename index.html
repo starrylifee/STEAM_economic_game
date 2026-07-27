@@ -28,6 +28,9 @@
     </button>
 
     <div class="topbar-right">
+      <button class="btn ghost" id="btn-review" type="button" hidden>
+        <span aria-hidden="true">📋</span> 기획 평가
+      </button>
       <button class="btn ghost" id="btn-sheet" type="button" hidden>
         <span aria-hidden="true">📄</span> 기획안 보기
       </button>
@@ -112,6 +115,22 @@
     </div>
   </div>
 
+  <!-- ── AI 기획 평가서 ───────────────────────────── -->
+  <div class="modal" id="review-modal" hidden>
+    <div class="modal-card wide" role="dialog" aria-modal="true" aria-label="AI 기획 평가서">
+      <div class="modal-head">
+        <h3 id="review-title">AI 기획 평가서</h3>
+        <div class="modal-head-actions">
+          <a class="btn ghost" id="review-print" href="review.html" target="_blank" rel="noopener">
+            <span aria-hidden="true">🖨️</span> 인쇄본
+          </a>
+          <button class="icon-btn" id="review-close" type="button" aria-label="닫기">✕</button>
+        </div>
+      </div>
+      <div class="rv-scroll" id="review-scroll"></div>
+    </div>
+  </div>
+
   <!-- ── 조절실 (밸런스 튜너) ─────────────────────── -->
   <aside class="drawer" id="tuner" hidden aria-label="조절실">
     <div class="drawer-head">
@@ -131,6 +150,7 @@
 
 </div>
 
+<script src="js/review.js"></script>
 <script src="js/core.js"></script>
 <script src="js/games/chair.js"></script>
 <script src="js/games/burger.js"></script>
