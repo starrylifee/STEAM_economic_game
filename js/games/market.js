@@ -377,7 +377,7 @@ class GameMarket extends GameBase {
       `제한 시간 <b>${this.P('timeLimit')}초</b>가 끝났습니다.<br><br>
        판매 <b>${this.sold} / ${this.P('goalSell')}개</b> ${okSell ? '✅' : '❌'}<br>
        코인 <b>${num(this.coin)} / ${this.P('goalCoin')}</b> ${okCoin ? '✅' : '❌'}<br><br>
-       승리 조건이 두 개라 둘 다 채워야 합니다. 🔧 조절실에서 조건을 하나만 남기거나 시간을 늘려 보세요.`,
+       승리 조건이 두 개라 둘 다 채워야 합니다. 📋 기획 평가에서 어떤 물건을 노려야 하는지 확인해 보세요.`,
       () => { this.cleanup(); this.start(); }, '다시 시작');
   }
 }

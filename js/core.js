@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════
-   core.js — 사운드 / 데이터 / 라우터 / 오버레이 / 조절실
+   core.js — 사운드 / 데이터 / 라우터 / 오버레이 / 평가서
    ═══════════════════════════════════════════════════ */
 
 /* ── 1. 효과음 (Web Audio, 외부 음원 없음) ────────── */
@@ -149,7 +149,7 @@ const gamesData = {
     emoji: '🪑',
     color: '#e8a33d',
     desc: '신답초에서 의자를 만들어 트럭에 싣고 청량리역에 팝니다. 번 돈으로 재료를 다시 사서 또 만들기를 3번. 2번째에는 도둑이 나타납니다.',
-    aiReview: '재료값 1,000원과 의자 판매가 1,000원이 <b>똑같아서</b> 아무리 열심히 팔아도 돈이 늘지 않아요. 조절실에서 판매 가격을 올리거나 재료값을 내려 보세요.',
+    aiReview: '재료값 1,000원과 의자 판매가 1,000원이 <b>똑같아서</b> 아무리 열심히 팔아도 돈이 늘지 않아요. 판매 가격과 재료값 중 어느 쪽을 고쳐야 할까요?',
     sheets: [
       { src: 'source_images/page_01.png', cap: '1. 규칙 설명' },
       { src: 'source_images/page_02.png', cap: '2. 배운 내용' },
@@ -164,7 +164,7 @@ const gamesData = {
     emoji: '🍔',
     color: '#e4572e',
     desc: '삼촌 농장에서 채소를 빌리고 정육점에서 고기를 사서 버거를 쌓습니다. 손님에게 대접하고 월급을 받은 뒤, 백화점에서 밥과 옷을 사고 집으로 돌아옵니다.',
-    aiReview: '목표가 <b>2억 4,776만 원</b>인데 버거 하나 팔면 3,000원이에요. 약 <b>8만 개</b>를 팔아야 끝납니다. 목표 금액을 낮추거나 버거 값을 올려 보세요.',
+    aiReview: '목표가 <b>2억 4,776만 원</b>인데 버거 하나 팔면 3,000원이에요. 약 <b>8만 개</b>를 팔아야 끝납니다. 목표 금액과 버거 값 중 무엇을 얼마로 정할까요?',
     sheets: [
       { src: 'source_images/page_05.png', cap: '1. 규칙 설명' },
       { src: 'source_images/page_06.png', cap: '2. 배운 내용' },
@@ -179,7 +179,7 @@ const gamesData = {
     emoji: '🚗',
     color: '#2ec4a6',
     desc: '신답 마을에서 만든 자동차를 팔고 수리합니다. 배고픔 게이지를 채우고 계절에 맞는 옷을 입어야 살아남습니다. 목표는 1억 원.',
-    aiReview: '자동차를 한 대 팔면 <b>50만 원</b>인데 목표가 <b>1억 원</b>이라 200대를 팔아야 해요. 그동안 배고픔 게이지는 계속 줄어듭니다. 목표를 낮추거나 자동차 값을 올려 보세요.',
+    aiReview: '자동차를 한 대 팔면 <b>50만 원</b>인데 목표가 <b>1억 원</b>이라 200대를 팔아야 해요. 그동안 배고픔 게이지는 계속 줄어듭니다. 목표와 자동차 값 중 무엇을 얼마로 정할까요?',
     sheets: [
       { src: 'source_images/page_09.png', cap: '1. 규칙 설명' },
       { src: 'source_images/page_10.png', cap: '2. 배운 내용' },
@@ -194,7 +194,7 @@ const gamesData = {
     emoji: '🏪',
     color: '#7c6bf5',
     desc: '옷·사과·생선·책 네 마을을 오가며 싼 곳에서 사고 비싼 곳에서 팝니다. 물건은 시간이 지나면 썩고, 옆집 경쟁자가 재고를 사 갑니다. 400초 안에 30개 판매와 5,000코인.',
-    aiReview: '사과만 사고팔면 한 번에 <b>20코인쯤</b> 남아서 5,000코인은 어림도 없어요. 옷(👕)처럼 비싼 특산물을 노리거나, 조절실에서 코인 목표를 낮춰 보세요.',
+    aiReview: '사과만 사고팔면 한 번에 <b>20코인쯤</b> 남아서 5,000코인은 어림도 없어요. 옷(👕)처럼 비싼 특산물을 노려야 5,000코인에 닿습니다.',
     sheets: [
       { src: 'source_images/page_13.png', cap: '1. 규칙 설명' },
       { src: 'source_images/page_14.png', cap: '2. 배운 내용' },
@@ -304,7 +304,6 @@ function showView(name) {
   const inGame = name === 'game';
   $('#btn-home').hidden = !inGame;
   $('#btn-sheet').hidden = !inGame;
-  $('#btn-tuner').hidden = !inGame;
   $('#btn-review').hidden = !inGame;
 }
 
@@ -322,7 +321,6 @@ function openReview() {
 function enterGame(id) {
   if (currentGame && currentGame.cleanup) currentGame.cleanup();
   Overlay.hide();
-  closeTuner();
   currentId = id;
   const d = gamesData[id];
 
@@ -347,7 +345,6 @@ function backToDashboard() {
   currentGame = null;
   currentId = null;
   Overlay.hide();
-  closeTuner();
   $('#sheet-modal').hidden = true;
   $('#review-modal').hidden = true;
   showView('dashboard');
@@ -399,7 +396,12 @@ function openSheet() {
   SFX.playSelect();
 }
 
-/* ── 9. 조절실 (밸런스 튜너) ─────────────────────── */
+/* ── 9. 조절실 (밸런스 튜너) — 보류 ─────────────────
+   학생이 만든 게임은 기획 학생이 정한 값 하나로만 돌아가야 한다고 판단해서 뺐습니다.
+   각 게임의 paramSpec 은 그대로 두었고(resetParams 가 기본값을 읽습니다),
+   학습지에서 정한 값을 paramSpec 의 orig 에 반영해 다시 배포하는 방식으로 씁니다.
+   되살리려면 아래 블록 주석과 index.html·boot.js 의 조절실 블록을 함께 푸세요.
+
 function fmtParam(spec, v) {
   if (spec.fmt === 'won') return korWon(v);
   return num(v) + (spec.unit || '');
@@ -462,3 +464,4 @@ function resetTuner() {
   openTuner();
   toast('기획서 원래 값으로 되돌렸습니다');
 }
+─────────────────────────────────────────────────── */

@@ -22,11 +22,13 @@ $('#btn-review').onclick   = openReview;
 $('#review-close').onclick = () => { $('#review-modal').hidden = true; };
 $('#review-modal').onclick = (e) => { if (e.target.id === 'review-modal') $('#review-modal').hidden = true; };
 
+/* 조절실 보류 — index.html·core.js 의 조절실 블록과 함께 되살리세요.
 $('#btn-tuner').onclick    = openTuner;
 $('#tuner-close').onclick  = closeTuner;
 $('#drawer-scrim').onclick = closeTuner;
 $('#tuner-apply').onclick  = applyTuner;
 $('#tuner-reset').onclick  = resetTuner;
+*/
 
 const soundBtn = $('#btn-sound');
 soundBtn.onclick = () => {
@@ -41,7 +43,6 @@ window.addEventListener('keydown', (e) => {
   if (e.key !== 'Escape') return;
   if (!$('#sheet-modal').hidden) { $('#sheet-modal').hidden = true; return; }
   if (!$('#review-modal').hidden) { $('#review-modal').hidden = true; return; }
-  if (!$('#tuner').hidden) { closeTuner(); return; }
   if (!$('#overlay').hidden) return;
   if (!$('#view-game').hidden) backToDashboard();
 });

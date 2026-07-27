@@ -6,7 +6,7 @@
 <title>신답 경제 게임랩 — 학생 기획 경제 게임 4종</title>
 <meta name="description" content="초등학생이 직접 기획한 경제 게임 4종을 플레이하고, AI 한줄평을 보며 게임 밸런스를 직접 고쳐보는 STEAM 수업용 웹앱.">
 <meta property="og:title" content="신답 경제 게임랩">
-<meta property="og:description" content="학생이 기획한 경제 게임 4종 · AI 한줄평 · 밸런스 조절실">
+<meta property="og:description" content="학생이 기획한 경제 게임 4종 · AI 한줄평 · 기획 평가서">
 <meta property="og:type" content="website">
 <meta property="og:image" content="og.png">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -34,9 +34,12 @@
       <button class="btn ghost" id="btn-sheet" type="button" hidden>
         <span aria-hidden="true">📄</span> 기획안 보기
       </button>
+      <!-- 조절실(밸런스 슬라이더) 보류 — 초4에게는 만질 숫자가 너무 많음.
+           값은 기획 학생이 학습지에서 정하는 흐름으로 대체했습니다.
       <button class="btn ghost" id="btn-tuner" type="button" hidden>
         <span aria-hidden="true">🔧</span> 조절실
       </button>
+      -->
       <a class="btn ghost" id="btn-worksheet" href="worksheet.html" target="_blank" rel="noopener">
         <span aria-hidden="true">🖨️</span> 학습지
       </a>
@@ -51,8 +54,8 @@
   <main id="view-dashboard" class="view">
     <div class="dash-head">
       <h1>우리가 만든 경제 게임</h1>
-      <p>기획서에 적힌 규칙 그대로 만들었습니다. 플레이해 보고 <b>AI 한줄평</b>을 읽은 뒤,
-         <b>조절실</b>에서 숫자를 직접 고쳐 더 재미있는 게임으로 바꿔 보세요.</p>
+      <p>기획서에 적힌 규칙과 숫자 그대로 만들었습니다. 플레이해 보고 <b>AI 한줄평</b>과
+         <b>기획 평가</b>를 읽은 뒤, 어떤 숫자를 얼마로 바꿀지 학습지에 직접 정해 보세요.</p>
     </div>
     <div class="card-grid" id="card-grid"></div>
     <footer class="dash-foot">
@@ -131,7 +134,11 @@
     </div>
   </div>
 
-  <!-- ── 조절실 (밸런스 튜너) ─────────────────────── -->
+  <!-- ── 조절실 (밸런스 튜너) — 보류 ───────────────────
+       학생이 만든 게임은 기획 학생이 정한 값 하나로만 돌아가야 한다고 판단해서 뺐습니다.
+       값은 학습지에서 정하고, js/games/*.js 의 paramSpec 기본값에 반영해 다시 배포합니다.
+       되살리려면 아래 주석을 풀고 core.js·boot.js 의 조절실 블록도 함께 푸세요.
+
   <aside class="drawer" id="tuner" hidden aria-label="조절실">
     <div class="drawer-head">
       <div>
@@ -147,6 +154,7 @@
     </div>
   </aside>
   <div class="drawer-scrim" id="drawer-scrim" hidden></div>
+  ─────────────────────────────────────────────────── -->
 
 </div>
 

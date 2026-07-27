@@ -84,6 +84,7 @@
 
   .q { margin-top: 13px; }
   .q h3 { font-size: 10.5pt; font-weight: 750; margin-bottom: 6px; }
+  .q .note { margin: -2px 0 6px; font-size: 8.5pt; color: #7a828c; }
   .q h3 .n { display: inline-block; width: 17px; height: 17px; border-radius: 50%;
              background: #14171c; color: #fff; font-size: 8.5pt; text-align: center;
              line-height: 17px; margin-right: 6px; vertical-align: 1px; }
@@ -148,8 +149,10 @@
       우리 반 친구들이 기획한 경제 게임 4개를, <b>기획서에 적힌 숫자 그대로</b> 만들었습니다.
       그래서 어떤 게임은 아무리 열심히 해도 돈이 안 늘고, 어떤 게임은 목표가 너무 커서 끝낼 수가 없습니다.
       <br><br>
-      게임을 직접 해 보고, <b>무엇이 문제인지 찾아서</b> 숫자를 고쳐 봅시다.
-      고친 뒤에 정말 더 재미있어졌는지도 확인합니다.
+      게임을 직접 해 보고, <b>무엇이 문제인지 찾아서</b> 숫자를 <b>얼마로 정할지</b> 결정합시다.
+      <br><br>
+      게임 안에는 숫자를 바꾸는 기능이 없습니다. 그 게임의 숫자를 정하는 사람은
+      <b>그 게임을 기획한 학생</b>이기 때문입니다. 여기에 적은 값으로 게임을 고쳐서 다시 올려 드립니다.
     </div>
   </div>
 
@@ -159,9 +162,9 @@
       <tr><th style="width:44px">순서</th><th>할 일</th></tr>
       <tr><td class="mono">①</td><td>게임을 <b>원래 숫자 그대로</b> 한 번 끝까지 해 본다.</td></tr>
       <tr><td class="mono">②</td><td>화면 오른쪽 위 <b>AI 한줄평</b>을 읽는다. 내 생각과 같은지 비교한다.</td></tr>
-      <tr><td class="mono">③</td><td>화면 위쪽 <b>🔧 조절실</b>을 열고, 고치고 싶은 숫자를 슬라이더로 바꾼다.</td></tr>
-      <tr><td class="mono">④</td><td><b>적용 후 다시 시작</b>을 누르고 다시 해 본다.</td></tr>
-      <tr><td class="mono">⑤</td><td>이 학습지에 <b>무엇을 왜 바꿨는지</b>, 결과가 어땠는지 적는다.</td></tr>
+      <tr><td class="mono">③</td><td>화면 위쪽 <b>📋 기획 평가</b>를 열고, 디버깅 목록의 순서대로 계산해 본다.</td></tr>
+      <tr><td class="mono">④</td><td>고칠 숫자를 <b>얼마로 정할지</b> 결정해서 이 학습지에 적는다.</td></tr>
+      <tr><td class="mono">⑤</td><td>그렇게 정하면 게임이 어떻게 달라질지 <b>예상</b>을 적는다.</td></tr>
     </table>
   </div>
 
@@ -290,13 +293,14 @@ document.getElementById('gamesheets').innerHTML = GAMES.map((g, i) => `
   </div>
 
   <div class="q">
-    <h3><span class="n">3</span>조절실에서 무엇을 바꿨나요?</h3>
+    <h3><span class="n">3</span>이 게임의 숫자를 얼마로 정할까요?</h3>
+    <p class="note">기획한 학생이 정합니다. 바꾸지 않을 항목은 <b>그대로</b>라고 적으세요.</p>
     <table>
       <tr>
-        <th style="width:30%">바꾼 항목</th>
-        <th style="width:18%">원래 값</th>
-        <th style="width:18%">바꾼 값</th>
-        <th>왜 그렇게 바꿨나요?</th>
+        <th style="width:30%">항목</th>
+        <th style="width:18%">지금 값</th>
+        <th style="width:18%">내가 정한 값</th>
+        <th>왜 그렇게 정했나요?</th>
       </tr>
       ${g.tune.map(([label, orig]) => `
       <tr><td>${label}</td><td class="mono">${orig}</td><td class="blank"></td><td></td></tr>`).join('')}
@@ -305,20 +309,18 @@ document.getElementById('gamesheets').innerHTML = GAMES.map((g, i) => `
   </div>
 
   <div class="q">
-    <h3><span class="n">4</span>바꾸고 다시 해 본 결과</h3>
+    <h3><span class="n">4</span>그렇게 정하면 어떻게 될지 예상해 보세요</h3>
     <div class="result">
-      <div class="cell"><b>얼마나 벌었나요?</b><div class="fill"></div></div>
-      <div class="cell"><b>끝까지 갔나요?</b>
-        <div class="pick"><label><i></i>성공</label><label><i></i>실패</label></div>
-      </div>
-      <div class="cell"><b>더 재미있어졌나요?</b>
-        <div class="pick"><label><i></i>그렇다</label><label><i></i>보통</label><label><i></i>아니다</label></div>
+      <div class="cell"><b>한 번에 얼마가 남나요?</b><div class="fill"></div></div>
+      <div class="cell"><b>끝내려면 몇 번 해야 하나요?</b><div class="fill"></div></div>
+      <div class="cell"><b>수업 시간 안에 끝날까요?</b>
+        <div class="pick"><label><i></i>끝난다</label><label><i></i>빠듯</label><label><i></i>안 끝난다</label></div>
       </div>
     </div>
   </div>
 
   <div class="q">
-    <h3><span class="n">5</span>기획한 친구에게 한마디</h3>
+    <h3><span class="n">5</span>숫자 말고 규칙을 하나 더 넣는다면?</h3>
     <div class="lines"><div></div><div></div></div>
   </div>
 

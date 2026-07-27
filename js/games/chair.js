@@ -166,7 +166,7 @@ class GameChair extends GameBase {
         () => this.buyMaterial(), !can);
       if (!can) g.appendChild(el('div', 'hint',
         `돈이 <b>${korWon(this.money)}</b>뿐이라 재료(${korWon(this.P('matCost'))})를 살 수 없어요.
-         🔧 조절실에서 재료값을 낮추거나 판매 가격을 올려 보세요.`));
+         재료값과 판매 가격 중 무엇을 얼마로 바꿔야 할지 학습지에 적어 보세요.`));
       this.bindKeys((e) => { if (e.key === 'Enter' && can) this.buyMaterial(); });
     }
 
@@ -372,7 +372,7 @@ class GameChair extends GameBase {
        시작 ${korWon(start)} → 지금 <b>${korWon(this.money)}</b>
        (${diff >= 0 ? '+' : ''}${korWon(diff)})<br><br>
        ${diff <= 0
-        ? '열심히 만들었는데 돈이 안 늘었죠? 🔧 <b>조절실</b>에서 재료값과 판매 가격을 고쳐 보세요.'
+        ? '열심히 만들었는데 돈이 안 늘었죠? 📋 <b>기획 평가</b>를 열어 왜 그런지 확인해 보세요.'
         : '재료값보다 판매 가격이 높으면 이렇게 돈이 쌓입니다.'}`,
       () => backToDashboard(), '대시보드로');
   }

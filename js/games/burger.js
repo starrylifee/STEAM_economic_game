@@ -261,7 +261,7 @@ class GameBurger extends GameBase {
 
       if (!done && !canBuyAny) {
         g.appendChild(el('div', 'hint',
-          `돈이 부족해서 쇼핑을 못 합니다. 🔧 조절실에서 <b>밥값·옷값</b>을 낮추거나 <b>햄버거 값</b>을 올려 보세요.`));
+          `돈이 부족해서 쇼핑을 못 합니다. <b>밥값·옷값</b>과 <b>햄버거 값</b> 중 무엇을 고쳐야 할까요?`));
       }
       this.bindKeys((e) => {
         if (e.key === '1') this.buyMall('rice');
@@ -392,7 +392,7 @@ class GameBurger extends GameBase {
     Overlay.show(true, '집에 돌아왔더니 목표 달성!',
       `${this.day}일 동안 손님 <b>${this.servedTotal}명</b>을 대접했습니다.<br>
        가진 돈 <b>${korWon(this.money)}</b> (목표 ${korWon(this.P('goal'))})<br><br>
-       기획서 원래 목표는 <b>24776만원</b>이었어요. 어떤 숫자를 바꿔야 할 만해지는지 조절실에서 확인해 보세요.`,
+       기획서 원래 목표는 <b>24776만원</b>이었어요. 📋 기획 평가에서 왜 그 숫자가 문제였는지 확인해 보세요.`,
       () => backToDashboard(), '대시보드로');
   }
 }

@@ -334,7 +334,7 @@ class GameTycoon extends GameBase {
     Overlay.show(false, '게임 오버',
       `${msg}<br><br>${this.day}일 동안 <b>${korWon(this.money)}</b>을 벌었습니다.
        (목표 ${korWon(this.P('goal'))})<br>
-       🔧 조절실에서 <b>배고픔 속도</b>나 <b>목표 금액</b>을 바꿔 보세요.`,
+       📋 기획 평가를 열어 <b>목표 금액</b>이 왜 문제인지 확인해 보세요.`,
       () => { this.cleanup(); this.start(); }, '다시 시작');
   }
 }
