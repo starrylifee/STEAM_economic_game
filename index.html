@@ -35,13 +35,13 @@
         <span aria-hidden="true">📄</span> 기획안 보기
       </button>
       <!-- 조절실(밸런스 슬라이더) 보류 — 초4에게는 만질 숫자가 너무 많음.
-           값은 기획 학생이 학습지에서 정하는 흐름으로 대체했습니다.
+           값은 기획 학생이 활동지에서 정하는 흐름으로 대체했습니다.
       <button class="btn ghost" id="btn-tuner" type="button" hidden>
         <span aria-hidden="true">🔧</span> 조절실
       </button>
       -->
       <a class="btn ghost" id="btn-worksheet" href="worksheet.html" target="_blank" rel="noopener">
-        <span aria-hidden="true">🖨️</span> 학습지
+        <span aria-hidden="true">🖨️</span> 활동지
       </a>
       <button class="btn ghost" id="btn-sound" type="button" aria-pressed="true">
         <span aria-hidden="true">🔊</span> 소리
@@ -55,7 +55,7 @@
     <div class="dash-head">
       <h1>우리가 만든 경제 게임</h1>
       <p>기획서에 적힌 규칙과 숫자 그대로 만들었습니다. 플레이해 보고 <b>AI 한줄평</b>과
-         <b>기획 평가</b>를 읽은 뒤, 어떤 숫자를 얼마로 바꿀지 학습지에 직접 정해 보세요.</p>
+         <b>기획 평가</b>를 읽은 뒤, 어떤 숫자를 얼마로 바꿀지 활동지에 직접 정해 보세요.</p>
     </div>
     <div class="card-grid" id="card-grid"></div>
     <footer class="dash-foot">
@@ -136,7 +136,7 @@
 
   <!-- ── 조절실 (밸런스 튜너) — 보류 ───────────────────
        학생이 만든 게임은 기획 학생이 정한 값 하나로만 돌아가야 한다고 판단해서 뺐습니다.
-       값은 학습지에서 정하고, js/games/*.js 의 paramSpec 기본값에 반영해 다시 배포합니다.
+       값은 활동지에서 정하고, js/games/*.js 의 paramSpec 기본값에 반영해 다시 배포합니다.
        되살리려면 아래 주석을 풀고 core.js·boot.js 의 조절실 블록도 함께 푸세요.
 
   <aside class="drawer" id="tuner" hidden aria-label="조절실">

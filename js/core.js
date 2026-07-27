@@ -399,7 +399,7 @@ function openSheet() {
 /* ── 9. 조절실 (밸런스 튜너) — 보류 ─────────────────
    학생이 만든 게임은 기획 학생이 정한 값 하나로만 돌아가야 한다고 판단해서 뺐습니다.
    각 게임의 paramSpec 은 그대로 두었고(resetParams 가 기본값을 읽습니다),
-   학습지에서 정한 값을 paramSpec 의 orig 에 반영해 다시 배포하는 방식으로 씁니다.
+   활동지에서 정한 값을 paramSpec 의 orig 에 반영해 다시 배포하는 방식으로 씁니다.
    되살리려면 아래 블록 주석과 index.html·boot.js 의 조절실 블록을 함께 푸세요.
 
 function fmtParam(spec, v) {

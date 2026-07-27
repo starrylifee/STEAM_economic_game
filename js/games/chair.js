@@ -166,7 +166,7 @@ class GameChair extends GameBase {
         () => this.buyMaterial(), !can);
       if (!can) g.appendChild(el('div', 'hint',
         `돈이 <b>${korWon(this.money)}</b>뿐이라 재료(${korWon(this.P('matCost'))})를 살 수 없어요.
-         재료값과 판매 가격 중 무엇을 얼마로 바꿔야 할지 학습지에 적어 보세요.`));
+         재료값과 판매 가격 중 무엇을 얼마로 바꿔야 할지 활동지에 적어 보세요.`));
       this.bindKeys((e) => { if (e.key === 'Enter' && can) this.buyMaterial(); });
     }
 
