@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>게임 디버깅 학습지 — 신답 경제 게임랩</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+  @page { size: A4 portrait; margin: 14mm 13mm; }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #6b7078;
+    color: #14171c;
+    font-family: "Pretendard Variable", Pretendard, -apple-system, "Malgun Gothic",
+                 "Apple SD Gothic Neo", system-ui, sans-serif;
+    font-size: 11pt;
+    line-height: 1.55;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  h1, h2, h3, h4, p { margin: 0; }
+
+  /* 화면에서만 보이는 도구 막대 */
+  .bar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 12px 20px;
+    background: #14171c; color: #f2f4f7;
+    font-size: 13px;
+  }
+  .bar a, .bar button {
+    font: inherit; font-weight: 600;
+    padding: 8px 15px; border-radius: 9px;
+    border: 1px solid rgba(255,255,255,.22);
+    background: transparent; color: #f2f4f7;
+    cursor: pointer; text-decoration: none;
+  }
+  .bar button.p { background: #f2f4f7; color: #14171c; border-color: transparent; }
+  .bar .t { font-weight: 700; }
+  .bar .d { color: #9aa1ab; font-weight: 400; }
+
+  .sheet {
+    width: 210mm; min-height: 297mm;
+    margin: 18px auto; padding: 16mm 14mm;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,.28);
+  }
+
+  /* ── 머리말 ── */
+  .head { display: flex; align-items: flex-end; justify-content: space-between;
+          gap: 14px; padding-bottom: 9px; border-bottom: 2.5px solid #14171c; }
+  .head h1 { font-size: 17pt; font-weight: 800; letter-spacing: -.02em; }
+  .head .sub { margin-top: 3px; font-size: 9.5pt; color: #565d67; }
+  .idbox { display: flex; gap: 6px; font-size: 9pt; color: #565d67; white-space: nowrap; }
+  .idbox span { border-bottom: 1px solid #a9b0b9; padding: 0 6px 2px; min-width: 46px; display: inline-block; }
+
+  /* ── 게임 카드 ── */
+  .gtitle { display: flex; align-items: center; gap: 10px; margin: 16px 0 4px; }
+  .gnum {
+    font-size: 8.5pt; font-weight: 800; letter-spacing: .06em;
+    padding: 4px 8px; border-radius: 6px; color: #fff;
+  }
+  .gtitle h2 { font-size: 15pt; font-weight: 800; letter-spacing: -.02em; }
+  .gtitle .who { margin-left: auto; font-size: 9.5pt; color: #565d67; }
+
+  .rule {
+    margin-top: 8px; padding: 10px 13px;
+    border: 1px solid #d3d8de; border-radius: 8px; background: #f7f8fa;
+    font-size: 9.5pt; line-height: 1.62;
+  }
+  .rule b { font-weight: 700; }
+  .rule .rt { display: block; font-size: 8pt; font-weight: 800; letter-spacing: .08em;
+              color: #7a828c; margin-bottom: 4px; }
+
+  .ai {
+    margin-top: 9px; padding: 11px 13px;
+    border: 1.5px solid #14171c; border-radius: 8px;
+    font-size: 10pt; line-height: 1.6;
+  }
+  .ai .at { display: block; font-size: 8pt; font-weight: 800; letter-spacing: .08em;
+            margin-bottom: 4px; }
+
+  .q { margin-top: 13px; }
+  .q h3 { font-size: 10.5pt; font-weight: 750; margin-bottom: 6px; }
+  .q h3 .n { display: inline-block; width: 17px; height: 17px; border-radius: 50%;
+             background: #14171c; color: #fff; font-size: 8.5pt; text-align: center;
+             line-height: 17px; margin-right: 6px; vertical-align: 1px; }
+
+  .lines { border: 1px solid #d3d8de; border-radius: 8px; }
+  .lines div { height: 8.4mm; border-bottom: 1px dashed #dfe3e8; }
+  .lines div:last-child { border-bottom: 0; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; }
+  th, td { border: 1px solid #ccd2d9; padding: 5px 7px; text-align: left; vertical-align: middle; }
+  th { background: #eef1f4; font-weight: 700; font-size: 8.5pt; color: #3c434c; }
+  td.blank { height: 9mm; }
+  td.mono { font-family: "SF Mono", Consolas, monospace; font-size: 9pt; color: #565d67; }
+
+  .result { display: flex; gap: 10px; margin-top: 9px; font-size: 9.5pt; }
+  .result .cell { flex: 1; border: 1px solid #ccd2d9; border-radius: 8px; padding: 8px 10px; }
+  .result .cell b { display: block; font-size: 8.5pt; color: #7a828c; font-weight: 700; margin-bottom: 5px; }
+  .result .cell .fill { height: 7mm; border-bottom: 1px dashed #cdd3da; }
+  .pick { display: flex; gap: 12px; font-size: 10pt; padding-top: 2px; }
+  .pick label { display: inline-flex; align-items: center; gap: 5px; }
+  .pick i { width: 12px; height: 12px; border: 1.4px solid #14171c; border-radius: 3px; display: inline-block; }
+
+  .foot { margin-top: 14px; padding-top: 8px; border-top: 1px solid #d3d8de;
+          font-size: 8.5pt; color: #868d96; display: flex; justify-content: space-between; }
+
+  @media print {
+    body { background: #fff; }
+    .bar { display: none; }
+    .sheet { width: auto; min-height: 0; margin: 0; padding: 0; box-shadow: none;
+             page-break-after: always; }
+    .sheet:last-child { page-break-after: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <span><span class="t">게임 디버깅 학습지</span> <span class="d">· 5장 (표지 1 + 게임 4)</span></span>
+  <span>
+    <a href="index.html">← 게임으로</a>
+    <button class="p" type="button" onclick="window.print()">인쇄 / PDF 저장</button>
+  </span>
+</div>
+
+<!-- ══ 1쪽 · 안내 ══════════════════════════════════ -->
+<section class="sheet">
+  <div class="head">
+    <div>
+      <h1>게임 디버깅 학습지</h1>
+      <div class="sub">신답 경제 게임랩 · 사회 「경제 활동과 물건의 교류」</div>
+    </div>
+    <div class="idbox">
+      <span>&nbsp;</span>학년<span>&nbsp;</span>반<span>&nbsp;</span>번
+      이름<span style="min-width:74px">&nbsp;</span>
+    </div>
+  </div>
+
+  <div class="q">
+    <h3><span class="n">1</span>오늘 하는 일</h3>
+    <div class="rule">
+      우리 반 친구들이 기획한 경제 게임 4개를, <b>기획서에 적힌 숫자 그대로</b> 만들었습니다.
+      그래서 어떤 게임은 아무리 열심히 해도 돈이 안 늘고, 어떤 게임은 목표가 너무 커서 끝낼 수가 없습니다.
+      <br><br>
+      게임을 직접 해 보고, <b>무엇이 문제인지 찾아서</b> 숫자를 고쳐 봅시다.
+      고친 뒤에 정말 더 재미있어졌는지도 확인합니다.
+    </div>
+  </div>
+
+  <div class="q">
+    <h3><span class="n">2</span>하는 방법</h3>
+    <table>
+      <tr><th style="width:44px">순서</th><th>할 일</th></tr>
+      <tr><td class="mono">①</td><td>게임을 <b>원래 숫자 그대로</b> 한 번 끝까지 해 본다.</td></tr>
+      <tr><td class="mono">②</td><td>화면 오른쪽 위 <b>AI 한줄평</b>을 읽는다. 내 생각과 같은지 비교한다.</td></tr>
+      <tr><td class="mono">③</td><td>화면 위쪽 <b>🔧 조절실</b>을 열고, 고치고 싶은 숫자를 슬라이더로 바꾼다.</td></tr>
+      <tr><td class="mono">④</td><td><b>적용 후 다시 시작</b>을 누르고 다시 해 본다.</td></tr>
+      <tr><td class="mono">⑤</td><td>이 학습지에 <b>무엇을 왜 바꿨는지</b>, 결과가 어땠는지 적는다.</td></tr>
+    </table>
+  </div>
+
+  <div class="q">
+    <h3><span class="n">3</span>좋은 게임 숫자를 고르는 기준</h3>
+    <table>
+      <tr><th style="width:130px">기준</th><th>이런 뜻입니다</th></tr>
+      <tr><td>끝낼 수 있는가</td><td class="blank">수업 시간 안에 목표에 도달할 수 있어야 합니다.</td></tr>
+      <tr><td>너무 쉽지 않은가</td><td class="blank">한 번에 바로 끝나면 재미가 없습니다.</td></tr>
+      <tr><td>고민할 거리가 있는가</td><td class="blank">무엇을 먼저 살지, 어디에 팔지 정할 게 있어야 합니다.</td></tr>
+      <tr><td>손해가 이해되는가</td><td class="blank">왜 돈이 줄었는지 플레이어가 알 수 있어야 합니다.</td></tr>
+    </table>
+  </div>
+
+  <div class="q">
+    <h3><span class="n">4</span>시작하기 전에 — 경제 낱말 확인</h3>
+    <table>
+      <tr>
+        <th style="width:25%">재료값(원가)</th><th style="width:25%">판매 가격</th>
+        <th style="width:25%">이익</th><th>재투자</th>
+      </tr>
+      <tr>
+        <td class="blank"></td><td class="blank"></td><td class="blank"></td><td class="blank"></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="foot"><span>신답초 STEAM · 2026</span><span>1 / 5</span></div>
+</section>
+
+<!-- ══ 게임 4쪽 (스크립트로 생성) ═══════════════════ -->
+<div id="gamesheets"></div>
+
+<script>
+const GAMES = [
+  {
+    n: 1, color: '#c07f1e', title: '의자 팔기', who: '탕탕이',
+    rules: [
+      '신답초에서 의자를 만들어 트럭에 싣고 청량리역에 판다.',
+      '<b>1,000원</b>이 넘으면 재료를 살 수 있다. (재료 <b>1,000원</b>)',
+      '이 과정을 <b>3번</b> 하면 성공.',
+      '2번째에 도둑이 들어와 의자를 훔친다. <b>5초</b> 안에 못 잡으면 처음부터.',
+      '도둑을 잡으면 <b>5,000원</b>이 모인다.'
+    ],
+    ai: '재료값 1,000원과 의자 판매가 1,000원이 <b>똑같아서</b> 아무리 열심히 팔아도 돈이 늘지 않아요. 판매 가격을 올리거나 재료값을 내려 보세요.',
+    tune: [['의자 재료 값', '1,000원'], ['의자 판매 가격', '1,000원'], ['반복 횟수', '3회'], ['도둑 잡는 시간', '5초']]
+  },
+  {
+    n: 2, color: '#c23e1c', title: '햄버거 가게', who: '개미핥기',
+    rules: [
+      '삼촌이 농사한 재료를 빌리고, 정육점에서 고기를 산다.',
+      '빵 사이에 채소와 고기 패티를 쌓아 햄버거를 만든다.',
+      '손님에게 대접하기를 반복해서 월급을 받는다.',
+      '차를 타고 백화점에 가서 저녁 밥과 옷을 산다.',
+      '집에 돌아왔을 때 돈이 <b>24776만원</b>이 있으면 끝.'
+    ],
+    ai: '목표가 <b>2억 4,776만 원</b>인데 버거 하나 팔면 3,000원이에요. 약 <b>8만 개</b>를 팔아야 끝납니다. 목표 금액을 낮추거나 버거 값을 올려 보세요.',
+    tune: [['목표 금액', '2억 4,776만원'], ['햄버거 한 개 값', '3,000원'], ['하루에 오는 손님 수', '5명'], ['백화점 옷값', '8,000원']]
+  },
+  {
+    n: 3, color: '#1d8b76', title: '타이쿤', who: '에라이!!',
+    rules: [
+      '신답 지역에서 만든 자동차를 내가 판다. 수리도 한다.',
+      '자동차 판 돈으로 부속과 살림살이를 산다.',
+      '배고픔 게이지가 다 닳으면 죽는다. 밥은 마트나 식당에서.',
+      '겨울에 반팔, 여름에 패딩을 입으면 잠을 못 잔다.',
+      '<b>1억</b>을 모으면 끝이 난다.'
+    ],
+    ai: '자동차를 한 대 팔면 <b>50만 원</b>인데 목표가 <b>1억 원</b>이라 200대를 팔아야 해요. 그동안 배고픔 게이지는 계속 줄어듭니다. 목표를 낮추거나 자동차 값을 올려 보세요.',
+    tune: [['목표 금액', '1억원'], ['자동차 판매 가격', '50만원'], ['배고픔 줄어드는 속도', '2 / 초'], ['식당 밥값', '15,000원']]
+  },
+  {
+    n: 4, color: '#5b49d6', title: '물건을 사고 파는 가게', who: '이상한 사람들',
+    rules: [
+      '지역 <b>4개</b>에 각각 특산물이 있다. (옷, 사과, 생선, 책)',
+      '살 때는 그 물건을 파는 지역에 가야 한다. 지역마다 값이 다르다.',
+      '시간이 지나면 물건이 썩고 <b>5코인</b>이 깎인다.',
+      '<b>20초</b>마다 재고가 <b>7개</b>씩 생기고, 옆집에 경쟁자가 있다.',
+      '<b>400초</b> 안에 <b>30개</b>를 팔고 <b>5,000코인</b>을 모아야 한다.'
+    ],
+    ai: '사과만 사고팔면 한 번에 <b>20코인쯤</b> 남아서 5,000코인은 어림도 없어요. 옷(👕)처럼 비싼 특산물을 노리거나, 조절실에서 코인 목표를 낮춰 보세요.',
+    tune: [['목표 코인', '5,000코인'], ['팔아야 하는 개수', '30개'], ['제한 시간', '400초'], ['물건이 썩는 시간', '30초']]
+  }
+];
+
+document.getElementById('gamesheets').innerHTML = GAMES.map((g, i) => `
+<section class="sheet">
+  <div class="head">
+    <div>
+      <h1>게임 디버깅 학습지</h1>
+      <div class="sub">신답 경제 게임랩 · 사회 「경제 활동과 물건의 교류」</div>
+    </div>
+    <div class="idbox">이름<span style="min-width:80px">&nbsp;</span></div>
+  </div>
+
+  <div class="gtitle">
+    <span class="gnum" style="background:${g.color}">GAME 0${g.n}</span>
+    <h2>${g.title}</h2>
+    <span class="who">기획 : ${g.who}</span>
+  </div>
+
+  <div class="rule">
+    <span class="rt">기획서에 적힌 규칙</span>
+    ${g.rules.map((r) => '· ' + r).join('<br>')}
+  </div>
+
+  <div class="q">
+    <h3><span class="n">1</span>원래 숫자 그대로 해 본 결과</h3>
+    <div class="result">
+      <div class="cell"><b>얼마나 벌었나요?</b><div class="fill"></div></div>
+      <div class="cell"><b>몇 번 / 몇 개 했나요?</b><div class="fill"></div></div>
+      <div class="cell"><b>끝까지 갔나요?</b>
+        <div class="pick"><label><i></i>성공</label><label><i></i>실패</label><label><i></i>못 끝냄</label></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ai" style="border-color:${g.color}">
+    <span class="at" style="color:${g.color}">AI 한줄평</span>
+    ${g.ai}
+  </div>
+
+  <div class="q">
+    <h3><span class="n">2</span>내가 찾은 문제는 무엇인가요?</h3>
+    <div class="lines"><div></div><div></div></div>
+  </div>
+
+  <div class="q">
+    <h3><span class="n">3</span>조절실에서 무엇을 바꿨나요?</h3>
+    <table>
+      <tr>
+        <th style="width:30%">바꾼 항목</th>
+        <th style="width:18%">원래 값</th>
+        <th style="width:18%">바꾼 값</th>
+        <th>왜 그렇게 바꿨나요?</th>
+      </tr>
+      ${g.tune.map(([label, orig]) => `
+      <tr><td>${label}</td><td class="mono">${orig}</td><td class="blank"></td><td></td></tr>`).join('')}
+      <tr><td class="blank"></td><td></td><td></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="q">
+    <h3><span class="n">4</span>바꾸고 다시 해 본 결과</h3>
+    <div class="result">
+      <div class="cell"><b>얼마나 벌었나요?</b><div class="fill"></div></div>
+      <div class="cell"><b>끝까지 갔나요?</b>
+        <div class="pick"><label><i></i>성공</label><label><i></i>실패</label></div>
+      </div>
+      <div class="cell"><b>더 재미있어졌나요?</b>
+        <div class="pick"><label><i></i>그렇다</label><label><i></i>보통</label><label><i></i>아니다</label></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q">
+    <h3><span class="n">5</span>기획한 친구에게 한마디</h3>
+    <div class="lines"><div></div><div></div></div>
+  </div>
+
+  <div class="foot"><span>신답초 STEAM · 2026</span><span>${i + 2} / 5</span></div>
+</section>`).join('');
+</script>
+
+</body>
+</html>

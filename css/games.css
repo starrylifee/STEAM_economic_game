@@ -1,0 +1,311 @@
+/* ═══════════════════════════════════════════════════
+   games.css — 게임별 스테이지 스타일
+   ═══════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────────────────────
+   GAME 01 · 의자 팔기
+   ─────────────────────────────────────────────────── */
+.cs { position: absolute; inset: 0; display: flex; flex-direction: column; }
+.cs-sky {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(600px 260px at 50% -8%, rgba(232,163,61,.10), transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,.02), transparent 40%);
+  pointer-events: none;
+}
+.cs-band {
+  position: relative;
+  flex: 0 0 auto;
+  display: grid; grid-template-columns: 130px 1fr 130px;
+  align-items: end; gap: 8px;
+  padding: 34px 26px 0;
+}
+.cs-place { text-align: center; }
+.cs-ico { font-size: 44px; line-height: 1; filter: drop-shadow(0 6px 12px rgba(0,0,0,.45)); }
+.cs-name { margin-top: 8px; font-size: 12.5px; font-weight: 700; color: var(--text-2); }
+.cs-road { position: relative; height: 64px; }
+.cs-line {
+  position: absolute; left: 0; right: 0; bottom: 12px; height: 2px;
+  background: repeating-linear-gradient(90deg, var(--line-2) 0 16px, transparent 16px 30px);
+}
+.cs-truck {
+  position: absolute; bottom: 16px; left: 0;
+  font-size: 34px; line-height: 1;
+  transition: left 1.05s cubic-bezier(.45,.05,.35,1);
+}
+.cs-truck.at-dest { left: calc(100% - 38px); }
+
+.cs-bench {
+  flex: 1 1 auto;
+  display: flex; align-items: center; justify-content: center; gap: 26px;
+  padding: 0 26px;
+}
+.cs-slot { text-align: center; }
+.cs-slot.dim { opacity: .28; }
+.cs-box {
+  position: relative;
+  width: 92px; height: 92px; border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 42px;
+  background: var(--surface); border: 1px solid var(--line-2);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+  overflow: hidden;
+}
+.cs-box.build::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+  height: var(--p, 0%);
+  background: linear-gradient(180deg, rgba(232,163,61,.28), rgba(232,163,61,.12));
+  transition: height .18s ease;
+}
+.cs-cap { margin-top: 9px; font-size: 12px; color: var(--text-2); font-weight: 600; }
+.cs-arrow { font-size: 22px; color: var(--text-3); }
+.cs-hammer { font-size: 34px; animation: swing 1.1s ease-in-out infinite; }
+@keyframes swing { 0%,100% { transform: rotate(-12deg) } 50% { transform: rotate(18deg) } }
+
+.cs-phase {
+  flex: 0 0 auto;
+  padding: 12px 20px 18px;
+  text-align: center; font-size: 14px; font-weight: 700; color: var(--text-2);
+  letter-spacing: -.01em;
+}
+.cs-phase.danger { color: var(--bad); animation: blink .8s steps(2) infinite; }
+@keyframes blink { 50% { opacity: .35 } }
+
+.cs-thief {
+  position: absolute; z-index: 30;
+  width: 62px; height: 62px; border-radius: 50%;
+  border: 2px solid var(--bad); background: rgba(242,86,91,.14);
+  font-size: 30px; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: left .3s ease, top .3s ease;
+  box-shadow: 0 0 0 6px rgba(242,86,91,.1), 0 8px 22px rgba(0,0,0,.5);
+}
+.cs-thief:hover { transform: scale(1.08); }
+
+/* ───────────────────────────────────────────────────
+   GAME 02 · 햄버거 가게
+   ─────────────────────────────────────────────────── */
+.bs { position: absolute; inset: 0; display: flex; flex-direction: column; }
+.bs-loc {
+  flex: 0 0 auto;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 14px 0 4px;
+}
+.bs-loc-item {
+  display: flex; align-items: center; gap: 7px;
+  padding: 7px 13px; border-radius: 999px;
+  font-size: 12.5px; font-weight: 650; color: var(--text-3);
+  border: 1px solid transparent;
+}
+.bs-loc-item.on {
+  color: var(--text);
+  background: rgba(228,87,46,.13);
+  border-color: rgba(228,87,46,.34);
+}
+.bs-loc-sep { color: var(--text-3); font-size: 11px; }
+
+.bs-main { flex: 1 1 auto; position: relative; display: flex; align-items: center; justify-content: center; gap: 34px; padding: 0 26px; }
+
+/* 버거 쌓기 */
+.bs-stack {
+  display: flex; flex-direction: column-reverse; align-items: center;
+  gap: 3px; min-height: 190px; justify-content: flex-start;
+}
+.bs-layer {
+  border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: #2a1b12;
+  animation: drop .26s cubic-bezier(.2,.9,.3,1.2);
+  box-shadow: 0 2px 6px rgba(0,0,0,.35);
+}
+@keyframes drop { from { opacity: 0; transform: translateY(-26px) } to { opacity: 1; transform: none } }
+.bs-layer.bun    { width: 150px; height: 34px; background: linear-gradient(180deg,#e0a760,#c98a44); border-radius: 26px 26px 8px 8px; }
+.bs-layer.bunb   { width: 150px; height: 26px; background: linear-gradient(180deg,#d59a56,#b87c3c); border-radius: 8px 8px 20px 20px; }
+.bs-layer.veg    { width: 158px; height: 20px; background: linear-gradient(180deg,#63b34a,#3f8c31); color:#eaffe4; }
+.bs-layer.patty  { width: 154px; height: 26px; background: linear-gradient(180deg,#7a4a2c,#54301a); color:#f6ded0; }
+.bs-layer.cheese { width: 162px; height: 14px; background: linear-gradient(180deg,#f4c542,#d9a020); }
+
+.bs-order {
+  min-width: 190px;
+  padding: 16px 18px; border-radius: 14px;
+  border: 1px solid var(--line-2); background: var(--surface);
+}
+.bs-order h4 { font-size: 12.5px; color: var(--text-3); font-weight: 700; letter-spacing: .04em; }
+.bs-order .bs-menu { margin-top: 10px; font-size: 19px; font-weight: 800; letter-spacing: -.02em; }
+.bs-order .bs-price { margin-top: 6px; font-family: var(--mono); font-size: 14px; color: #ffb08d; font-weight: 700; }
+.bs-guest { font-size: 46px; text-align: center; margin-bottom: 10px; }
+.bs-recipe { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 5px; }
+.bs-chip {
+  font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 999px;
+  background: var(--surface-3); color: var(--text-2);
+}
+.bs-chip.done { background: rgba(62,207,142,.16); color: #8ff0c4; }
+
+/* 매장 배치 (page_08 재현) */
+.bs-shop { display: grid; grid-template-columns: repeat(2, 74px); gap: 14px; }
+.bs-table {
+  width: 74px; height: 60px; border-radius: 12px;
+  border: 1px dashed var(--line-2);
+  display: flex; align-items: center; justify-content: center; font-size: 22px;
+  color: var(--text-3);
+}
+.bs-table.busy { border-style: solid; border-color: rgba(228,87,46,.5); background: rgba(228,87,46,.08); }
+.bs-counter {
+  margin-top: 4px; grid-column: span 2;
+  height: 40px; border-radius: 10px; background: var(--surface-3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--text-2); letter-spacing: .04em;
+}
+
+.bs-shelf { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.bs-item {
+  padding: 14px 12px; border-radius: 13px; text-align: center;
+  border: 1px solid var(--line-2); background: var(--surface);
+  min-width: 104px;
+}
+.bs-item .bi-ico { font-size: 30px; }
+.bs-item .bi-name { margin-top: 7px; font-size: 12.5px; font-weight: 700; }
+.bs-item .bi-price { margin-top: 3px; font-family: var(--mono); font-size: 11.5px; color: var(--text-3); }
+.bs-item.bought { opacity: .4; border-color: var(--good); }
+
+.bs-goal { flex: 0 0 auto; padding: 10px 26px 16px; }
+.bs-goal-bar { height: 7px; border-radius: 99px; background: var(--surface-3); overflow: hidden; }
+.bs-goal-fill { height: 100%; background: linear-gradient(90deg,#e4572e,#f0b429); transition: width .3s ease; }
+.bs-goal-txt { margin-top: 7px; display: flex; justify-content: space-between; font-size: 11.5px; color: var(--text-3); font-family: var(--mono); }
+
+/* ───────────────────────────────────────────────────
+   GAME 03 · 타이쿤
+   ─────────────────────────────────────────────────── */
+.ty { position: absolute; inset: 0; display: flex; flex-direction: column; }
+.ty-world { flex: 1 1 auto; position: relative; overflow: hidden; }
+.ty-half {
+  position: absolute; top: 0; bottom: 0; width: 50%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 10px; transition: opacity .3s ease, filter .3s ease;
+}
+.ty-half.village { left: 0; }
+.ty-half.travel  { right: 0; border-left: 1px dashed var(--line); }
+.ty-half.off { opacity: .22; filter: grayscale(1); }
+.ty-half h4 { font-size: 12.5px; font-weight: 700; color: var(--text-3); letter-spacing: .06em; }
+.ty-scene-ico { font-size: 54px; line-height: 1; }
+.ty-sub { font-size: 12px; color: var(--text-3); }
+
+.ty-cars { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; justify-content: center; max-width: 240px; }
+.ty-car {
+  width: 42px; height: 42px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center; font-size: 21px;
+  background: var(--surface); border: 1px solid var(--line-2);
+}
+.ty-car.broken { border-color: rgba(242,86,91,.5); background: rgba(242,86,91,.1); }
+
+.ty-season {
+  position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 9px;
+  padding: 7px 15px; border-radius: 999px;
+  background: rgba(11,12,14,.78); border: 1px solid var(--line-2);
+  font-size: 12.5px; font-weight: 700; z-index: 5;
+}
+.ty-season .ts-day { font-family: var(--mono); color: var(--text-3); font-weight: 600; }
+.ty-wear {
+  font-size: 11.5px; padding: 3px 9px; border-radius: 999px;
+  background: var(--surface-3); color: var(--text-2); font-weight: 650;
+}
+.ty-wear.bad { background: rgba(242,86,91,.18); color: #ffb3b6; }
+.ty-wear.good { background: rgba(62,207,142,.16); color: #8ff0c4; }
+
+.ty-gauges { flex: 0 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 12px 22px 16px; }
+.ty-g-label { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--text-2); margin-bottom: 5px; }
+.ty-g-bar { height: 9px; border-radius: 99px; background: var(--surface-3); overflow: hidden; }
+.ty-g-fill { height: 100%; border-radius: 99px; transition: width .3s linear, background .3s ease; }
+
+/* ───────────────────────────────────────────────────
+   GAME 04 · 물건을 사고 파는 가게
+   ─────────────────────────────────────────────────── */
+.mk { position: absolute; inset: 0; display: flex; flex-direction: column; }
+.mk-top {
+  flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 20px 8px;
+}
+.mk-clock { font-family: var(--mono); font-size: 22px; font-weight: 800; }
+.mk-clock.urgent { color: var(--bad); animation: blink .7s steps(2) infinite; }
+.mk-rival { font-size: 12px; color: var(--text-3); }
+
+.mk-map {
+  flex: 1 1 auto;
+  display: grid; grid-template-columns: 1fr 76px 1fr; gap: 10px;
+  padding: 0 18px 6px;
+  min-height: 0;
+}
+.mk-col { display: grid; gap: 10px; min-height: 0; }
+.mk-road {
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)),
+    var(--surface-2);
+  position: relative;
+  border: 1px solid var(--line);
+}
+.mk-road::after {
+  content: ""; position: absolute; left: 50%; top: 12px; bottom: 12px; width: 3px;
+  transform: translateX(-50%);
+  background: repeating-linear-gradient(180deg, var(--line-2) 0 14px, transparent 14px 28px);
+}
+.mk-me {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  font-size: 26px; transition: top .3s cubic-bezier(.3,.8,.3,1);
+  z-index: 3;
+}
+
+.mk-shop {
+  border-radius: 13px; border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 11px 13px;
+  display: flex; flex-direction: column; gap: 6px;
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease, transform .1s ease;
+  min-height: 0;
+}
+.mk-shop:hover { border-color: var(--line-2); background: var(--surface-2); }
+.mk-shop.here { border-color: color-mix(in srgb, var(--c) 60%, transparent); background: color-mix(in srgb, var(--c) 9%, var(--surface)); }
+.mk-shop-head { display: flex; align-items: center; gap: 8px; }
+.mk-shop-ico { font-size: 22px; }
+.mk-shop-name { font-size: 13.5px; font-weight: 750; }
+.mk-shop-tag {
+  margin-left: auto; font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 999px;
+  background: var(--surface-3); color: var(--text-3);
+}
+.mk-shop-tag.here { background: color-mix(in srgb, var(--c) 22%, transparent); color: #d9d3ff; }
+.mk-prices { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+.mk-price {
+  text-align: center; padding: 5px 2px; border-radius: 8px;
+  background: var(--surface-2); border: 1px solid transparent;
+  font-size: 11px;
+}
+.mk-price .mp-ico { font-size: 15px; display: block; }
+.mk-price .mp-val { font-family: var(--mono); font-weight: 700; font-size: 11px; }
+.mk-price.cheap { border-color: rgba(62,207,142,.4); color: #8ff0c4; }
+.mk-price.pricey { border-color: rgba(240,180,41,.4); color: #ffd98a; }
+.mk-price .mp-stock { display: block; font-size: 9.5px; color: var(--text-3); }
+
+.mk-bag {
+  flex: 0 0 auto;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 10px 20px 14px;
+  border-top: 1px solid var(--line);
+}
+.mk-bag-title { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--text-3); margin-right: 4px; }
+.mk-bag-item {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 11px; border-radius: 999px;
+  background: var(--surface-2); border: 1px solid var(--line-2);
+  font-size: 12px; font-weight: 650;
+}
+.mk-bag-item .mb-fresh { font-family: var(--mono); font-size: 10.5px; color: var(--text-3); }
+.mk-bag-item.rotting { border-color: rgba(240,180,41,.5); }
+.mk-bag-empty { font-size: 12px; color: var(--text-3); }
+
+@media (max-width: 1180px) {
+  .cs-box { width: 74px; height: 74px; font-size: 34px; }
+  .ty-gauges { grid-template-columns: 1fr; gap: 8px; }
+  .bs-main { gap: 18px; }
+}

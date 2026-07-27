@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>신답 경제 게임랩 — 학생 기획 경제 게임 4종</title>
+<meta name="description" content="초등학생이 직접 기획한 경제 게임 4종을 플레이하고, AI 한줄평을 보며 게임 밸런스를 직접 고쳐보는 STEAM 수업용 웹앱.">
+<meta property="og:title" content="신답 경제 게임랩">
+<meta property="og:description" content="학생이 기획한 경제 게임 4종 · AI 한줄평 · 밸런스 조절실">
+<meta property="og:type" content="website">
+<meta property="og:image" content="og.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/games.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ── 상단바 ───────────────────────────────────── -->
+  <header class="topbar">
+    <button class="brand" id="brand-btn" type="button">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-text">
+        <b>신답 경제 게임랩</b>
+        <small>학생 기획 경제 게임 4종</small>
+      </span>
+    </button>
+
+    <div class="topbar-right">
+      <button class="btn ghost" id="btn-sheet" type="button" hidden>
+        <span aria-hidden="true">📄</span> 기획안 보기
+      </button>
+      <button class="btn ghost" id="btn-tuner" type="button" hidden>
+        <span aria-hidden="true">🔧</span> 조절실
+      </button>
+      <a class="btn ghost" id="btn-worksheet" href="worksheet.html" target="_blank" rel="noopener">
+        <span aria-hidden="true">🖨️</span> 학습지
+      </a>
+      <button class="btn ghost" id="btn-sound" type="button" aria-pressed="true">
+        <span aria-hidden="true">🔊</span> 소리
+      </button>
+      <button class="btn" id="btn-home" type="button" hidden>처음으로</button>
+    </div>
+  </header>
+
+  <!-- ── 대시보드 ─────────────────────────────────── -->
+  <main id="view-dashboard" class="view">
+    <div class="dash-head">
+      <h1>우리가 만든 경제 게임</h1>
+      <p>기획서에 적힌 규칙 그대로 만들었습니다. 플레이해 보고 <b>AI 한줄평</b>을 읽은 뒤,
+         <b>조절실</b>에서 숫자를 직접 고쳐 더 재미있는 게임으로 바꿔 보세요.</p>
+    </div>
+    <div class="card-grid" id="card-grid"></div>
+    <footer class="dash-foot">
+      <span>2026 신답초 STEAM · 사회 「경제 활동과 물건의 교류」</span>
+      <span class="dot"></span>
+      <span>기획 : 탕탕이 · 개미핥기 · 에라이!! · 이상한 사람들</span>
+    </footer>
+  </main>
+
+  <!-- ── 게임 화면 ────────────────────────────────── -->
+  <section id="view-game" class="view" hidden>
+    <div class="game-head">
+      <div class="gh-left">
+        <span class="gh-num" id="gh-num">01</span>
+        <div>
+          <h2 id="gh-title">게임 제목</h2>
+          <p class="gh-meta">
+            <span id="gh-student">기획 : —</span>
+            <span class="dot"></span>
+            <span id="gh-concept">개념</span>
+          </p>
+        </div>
+      </div>
+      <div class="gh-review">
+        <span class="gh-review-tag">AI 한줄평</span>
+        <p id="gh-review-text">—</p>
+      </div>
+    </div>
+
+    <div class="game-body">
+      <aside class="panel stat-panel" id="stat-panel"></aside>
+      <div class="stage-wrap">
+        <div class="stage" id="scene"></div>
+      </div>
+      <aside class="panel ctrl-panel" id="interactive-controls-container"></aside>
+    </div>
+  </section>
+
+  <!-- ── 결과 오버레이 ────────────────────────────── -->
+  <div class="overlay" id="overlay" hidden>
+    <div class="overlay-card" role="dialog" aria-modal="true">
+      <div class="ov-icon" id="ov-icon">🎉</div>
+      <h3 id="ov-title">성공!</h3>
+      <p id="ov-desc"></p>
+      <div class="ov-actions">
+        <button class="btn primary" id="ov-btn" type="button">계속하기</button>
+        <button class="btn ghost" id="ov-home" type="button">처음으로</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 기획안 뷰어 ──────────────────────────────── -->
+  <div class="modal" id="sheet-modal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-label="학생 기획안">
+      <div class="modal-head">
+        <h3 id="sheet-title">학생 기획안</h3>
+        <button class="icon-btn" id="sheet-close" type="button" aria-label="닫기">✕</button>
+      </div>
+      <div class="sheet-scroll" id="sheet-scroll"></div>
+    </div>
+  </div>
+
+  <!-- ── 조절실 (밸런스 튜너) ─────────────────────── -->
+  <aside class="drawer" id="tuner" hidden aria-label="조절실">
+    <div class="drawer-head">
+      <div>
+        <h3>🔧 조절실</h3>
+        <p>숫자를 바꾸고 <b>적용 후 다시 시작</b>을 누르면 바뀐 규칙으로 플레이됩니다.</p>
+      </div>
+      <button class="icon-btn" id="tuner-close" type="button" aria-label="닫기">✕</button>
+    </div>
+    <div class="drawer-body" id="tuner-body"></div>
+    <div class="drawer-foot">
+      <button class="btn ghost" id="tuner-reset" type="button">기획서 원래 값으로</button>
+      <button class="btn primary" id="tuner-apply" type="button">적용 후 다시 시작</button>
+    </div>
+  </aside>
+  <div class="drawer-scrim" id="drawer-scrim" hidden></div>
+
+</div>
+
+<script src="js/core.js"></script>
+<script src="js/games/chair.js"></script>
+<script src="js/games/burger.js"></script>
+<script src="js/games/tycoon.js"></script>
+<script src="js/games/market.js"></script>
+<script src="js/boot.js"></script>
+</body>
+</html>
