@@ -85,6 +85,14 @@
   .q { margin-top: 13px; }
   .q h3 { font-size: 10.5pt; font-weight: 750; margin-bottom: 6px; }
   .q .note { margin: -2px 0 6px; font-size: 8.5pt; color: #7a828c; }
+
+  /* 기획자 전용 구역 — 흑백 인쇄에서도 확실히 구분되게 검은 띠 */
+  .owner { margin-top: 14px; border: 1.5px solid #14171c; border-radius: 9px;
+           overflow: hidden; page-break-inside: avoid; }
+  .owner-head { background: #14171c; color: #fff; padding: 5px 12px;
+                font-size: 8.5pt; font-weight: 800; letter-spacing: .04em; }
+  .owner-body { padding: 4px 12px 12px; }
+  .owner-body .q:first-child { margin-top: 8px; }
   .q h3 .n { display: inline-block; width: 17px; height: 17px; border-radius: 50%;
              background: #14171c; color: #fff; font-size: 8.5pt; text-align: center;
              line-height: 17px; margin-right: 6px; vertical-align: 1px; }
@@ -166,6 +174,10 @@
       <tr><td class="mono">④</td><td>고칠 숫자를 <b>얼마로 정할지</b> 결정해서 이 활동지에 적는다.</td></tr>
       <tr><td class="mono">⑤</td><td>그렇게 정하면 게임이 어떻게 달라질지 <b>예상</b>을 적는다.</td></tr>
     </table>
+    <p class="note" style="margin-top:7px">
+      네 게임을 <b>모두</b> 해 보고 1·2·5번을 적습니다.
+      검은 테두리로 묶인 <b>3·4번은 그 게임을 기획한 사람만</b> 씁니다.
+    </p>
   </div>
 
   <div class="q">
@@ -292,9 +304,13 @@ document.getElementById('gamesheets').innerHTML = GAMES.map((g, i) => `
     <div class="lines"><div></div><div></div></div>
   </div>
 
+  <div class="owner">
+    <div class="owner-head">✎ 이 게임을 기획한 사람만 쓰는 칸 — 기획 : ${g.who}</div>
+    <div class="owner-body">
+
   <div class="q">
     <h3><span class="n">3</span>이 게임의 숫자를 얼마로 정할까요?</h3>
-    <p class="note">기획한 학생이 정합니다. 바꾸지 않을 항목은 <b>그대로</b>라고 적으세요.</p>
+    <p class="note">바꾸지 않을 항목은 <b>그대로</b>라고 적으세요. 여기 적은 값으로 게임을 고칩니다.</p>
     <table>
       <tr>
         <th style="width:30%">항목</th>
@@ -316,6 +332,9 @@ document.getElementById('gamesheets').innerHTML = GAMES.map((g, i) => `
       <div class="cell"><b>수업 시간 안에 끝날까요?</b>
         <div class="pick"><label><i></i>끝난다</label><label><i></i>빠듯</label><label><i></i>안 끝난다</label></div>
       </div>
+    </div>
+  </div>
+
     </div>
   </div>
 
